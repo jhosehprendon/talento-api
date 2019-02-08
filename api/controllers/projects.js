@@ -92,21 +92,7 @@ exports.projects_get_project = (req, res, next) => {
 
 exports.projects_update_project = (req, res, next) => {
 
-    if(req.body.length > 1) {
-        const updateOps = {}
-        for(const ops of req.body ) {
-            updateOps[ops.propName] = ops.value
-        }
-    
-        var data = { $set: updateOps }
-    } else {
-        var data = {...req.body, projectImage: req.file.path}
-
-    }
-
-
-
-    Project.update({ _id: req.params.projectId }, data).exec().then(result => {
+    Project.update({ _id: req.params.projectId }, req.body).exec().then(result => {
         // console.log(req.body)
         res.status(200).json({
             message: 'Project updated',
