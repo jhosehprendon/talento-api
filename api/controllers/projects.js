@@ -4,14 +4,13 @@ const Project = require('../models/project');
 
 exports.projects_get_all = (req, res, next) => {
 
-    Project.find().select('name price _id projectImage userId').exec().then(docs => {
+    Project.find().select('name description _id userId').exec().then(docs => {
         const response = {
             count: docs.length,
             projects: docs.map(doc => {
                 return {
                     name: doc.name,
-                    price: doc.price,
-                    projectImage: doc.projectImage,
+                    description: doc.description,
                     _id: doc._id,
                     userId: doc.userId,
                     request: {
@@ -36,8 +35,7 @@ exports.projects_create_project = (req, res, next) => {
     const project = new Project({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price,
-        projectImage: req.file.path,
+        description: req.body.description,
         userId: req.body.userId
     })
 
@@ -47,9 +45,8 @@ exports.projects_create_project = (req, res, next) => {
             message: 'Created project Successfully',
             createdProject: {
                 name: result.name,
-                price: result.price,
+                description: result.description,
                 _id: result._id,
-                projectImage: result.projectImage,
                 userId: result.userId,
                 request: {
                     type: 'GET',
@@ -68,7 +65,7 @@ exports.projects_create_project = (req, res, next) => {
 
 exports.projects_get_project = (req, res, next) => {
     const id = req.params.projectId
-    Project.findById(id).select('name price _id projectImage').exec().then(doc => {
+    Project.findById(id).select('name description _id ').exec().then(doc => {
         console.log(doc)
         
         if(doc) {

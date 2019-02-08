@@ -6,13 +6,9 @@ const projectSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    price: {
-        type: Number,
-        required: true
-    },
-    projectImage: {
+    description: {
         type: String,
-        rerquired: true
+        required: true
     },
     userId: {
         type: String,
