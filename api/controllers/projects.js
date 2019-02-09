@@ -1,23 +1,24 @@
 const mongoose = require('mongoose');
 
 const Project = require('../models/project');
+const User = require('../models/user');
 
 exports.projects_get_all = (req, res, next) => {
-
-    Project.find().select('name description _id userId').exec().then(docs => {
+    
+    Project.find({ userId: req.params.userId }).select('name description _id userId').exec().then(docs => {
         const response = {
             count: docs.length,
             projects: docs.map(doc => {
-                return {
-                    name: doc.name,
-                    description: doc.description,
-                    _id: doc._id,
-                    userId: doc.userId,
-                    request: {
-                        type: 'GET',
-                        url: 'http://localhost:3000/projects/' + doc._id
-                    } 
-                }
+                    return {
+                        name: doc.name,
+                        description: doc.description,
+                        _id: doc._id,
+                        userId: doc.userId,
+                        request: {
+                            type: 'GET',
+                            url: 'http://localhost:3000/projects/' + doc._id
+                        } 
+                    }
             })
         }
         res.status(200).json(response)
