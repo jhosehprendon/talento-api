@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
 
-const Project = require('../models/project');
+const Candidate = require('../models/candidate');
 
-exports.projects_get_all = (req, res, next) => {
+exports.candidates_get_all = (req, res, next) => {
     
-    Project.find({ userId: req.params.userId }).select('name description _id userId').exec().then(docs => {
+    Candidate.find({ userId: req.params.userId }).select('name email _id userId').exec().then(docs => {
         const response = {
             count: docs.length,
-            projects: docs.map(doc => {
+            candidates: docs.map(doc => {
                     return {
                         name: doc.name,
-                        description: doc.description,
+                        email: doc.email,
                         _id: doc._id,
                         userId: doc.userId,
                         request: {
                             type: 'GET',
-                            url: 'http://localhost:3000/projects/' + doc._id
+                            url: 'http://localhost:3000/candidates/' + doc._id
                         } 
                     }
             })
@@ -30,27 +30,27 @@ exports.projects_get_all = (req, res, next) => {
     })
 }
 
-exports.projects_create_project = (req, res, next) => {
+exports.candidates_create_candidate = (req, res, next) => {
 
-    const project = new Project({
+    const candidate = new Candidate({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        description: req.body.description,
+        email: req.body.email,
         userId: req.body.userId
     })
 
-    project.save().then(result => {
+    candidate.save().then(result => {
         console.log(result)
         res.status(201).json({
-            message: 'Created project Successfully',
-            createdProject: {
+            message: 'Created candidate Successfully',
+            createdCandidate: {
                 name: result.name,
-                description: result.description,
+                email: result.email,
                 _id: result._id,
                 userId: result.userId,
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:3000/projects/' + result._id
+                    url: 'http://localhost:3002/candidates/' + result._id
                 }
             }
         })
@@ -63,23 +63,21 @@ exports.projects_create_project = (req, res, next) => {
 
 }
 
-exports.projects_get_project = (req, res, next) => {
-    const id = req.params.projectId
-    Project.findById(id).select('name description _id ').exec().then(doc => {
-        console.log(doc)
-        
+exports.candidates_get_candidate = (req, res, next) => {
+    const id = req.params.candidateId
+    Candidate.findById(id).select('name email _id ').exec().then(doc => {        
         if(doc) {
             res.status(200).json({
-                project: doc,
+                candidate: doc,
                 request: {
                     type: 'GET',
-                    description: 'Get all projects',
-                    url: 'http://localhost:3000/projects'
+                    description: 'Get all candidates',
+                    url: 'http://localhost:3000/candidates'
                 }
             })
         } else {
             res.status(404).json({
-                message: 'No valid entry found for that project ID'
+                message: 'No valid entry found for that candidate ID'
             })
         }
 
@@ -90,15 +88,15 @@ exports.projects_get_project = (req, res, next) => {
     
 }
 
-exports.projects_update_project = (req, res, next) => {
+exports.candidates_update_candidate = (req, res, next) => {
 
-    Project.update({ _id: req.params.projectId }, req.body).exec().then(result => {
+    Candidate.update({ _id: req.params.candidateId }, req.body).exec().then(result => {
         // console.log(req.body)
         res.status(200).json({
-            message: 'Project updated',
+            message: 'Candidate updated',
             request: {
                 type: 'GET',
-                url: 'http://localhost:3000/projects/' + req.params.projectId
+                url: 'http://localhost:3000/candidates/' + req.params.candidateId
             }
         })
     }).catch(err => {
@@ -109,11 +107,11 @@ exports.projects_update_project = (req, res, next) => {
     })
 }
 
-exports.projects_delete_project = (req, res, next) => {
+exports.candidates_delete_candidate = (req, res, next) => {
     
-    Project.remove({ _id: req.params.projectId }).exec().then(result => {
+    Candidate.remove({ _id: req.params.candidateId }).exec().then(result => {
         res.status(200).json({
-            message: 'Project deleted'
+            message: 'Candidate deleted'
         })
     }).catch(err => {
         console.log(err)

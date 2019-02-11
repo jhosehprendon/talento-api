@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
 const projectRoutes = require('./api/routes/projects')
+const candidateRoutes = require('./api/routes/candidates')
 const userRoutes = require('./api/routes/user')
 
 mongoose.connect('mongodb://shop-node:' + process.env.MONGO_ATLAS_PW + '@node-shop-app-shard-00-00-cweaz.mongodb.net:27017,node-shop-app-shard-00-01-cweaz.mongodb.net:27017,node-shop-app-shard-00-02-cweaz.mongodb.net:27017/test?ssl=true&replicaSet=node-shop-app-shard-0&authSource=admin&retryWrites=true', {
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/projects', projectRoutes)
+app.use('/candidates', candidateRoutes)
 // app.use('/orders', orderRoutes)
 app.use('/user', userRoutes)
 
