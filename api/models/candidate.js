@@ -13,6 +13,10 @@ const candidateSchema = mongoose.Schema({
     userId: {
         type: String,
         rerquired: true
+    },
+    projectId: {
+        type: String,
+        rerquired: true
     }
 })
 

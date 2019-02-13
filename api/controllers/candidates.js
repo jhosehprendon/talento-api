@@ -4,7 +4,7 @@ const Candidate = require('../models/candidate');
 
 exports.candidates_get_all = (req, res, next) => {
     
-    Candidate.find({ userId: req.params.userId }).select('name email _id userId').exec().then(docs => {
+    Candidate.find({ projectId: req.params.projectId }).select('name email _id userId').exec().then(docs => {
         const response = {
             count: docs.length,
             candidates: docs.map(doc => {
@@ -15,7 +15,7 @@ exports.candidates_get_all = (req, res, next) => {
                         userId: doc.userId,
                         request: {
                             type: 'GET',
-                            url: 'http://localhost:3000/candidates/' + doc._id
+                            url: 'http://localhost:3002/candidates/' + doc._id
                         } 
                     }
             })
@@ -36,7 +36,8 @@ exports.candidates_create_candidate = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         email: req.body.email,
-        userId: req.body.userId
+        userId: req.body.userId,
+        projectId: req.body.projectId
     })
 
     candidate.save().then(result => {

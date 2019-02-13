@@ -4,11 +4,11 @@ const checkAuth = require('../middleware/check-auth');
 
 const CandidatesController = require('../controllers/candidates');
 
-router.get('/', CandidatesController.candidates_get_all)
+router.get('/:projectId', CandidatesController.candidates_get_all)
 
 router.post('/', checkAuth, CandidatesController.candidates_create_candidate)
 
-router.get('/candidate/:candidateId', CandidatesController.candidates_get_candidate)
+router.get('/:candidateId', CandidatesController.candidates_get_candidate)
 
 router.patch('/:candidateId', checkAuth, CandidatesController.candidates_update_candidate)
 
