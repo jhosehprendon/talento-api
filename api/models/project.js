@@ -10,6 +10,18 @@ const projectSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    location: {
+        type: String,
+        required: true
+    },
+    seniority: {
+        type: String,
+        required: true
+    },
+    company: {
+        type: String,
+        required: true
+    },
     userId: {
         type: String,
         rerquired: true

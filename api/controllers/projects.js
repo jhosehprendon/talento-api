@@ -4,13 +4,14 @@ const Project = require('../models/project');
 
 exports.projects_get_all = (req, res, next) => {
     
-    Project.find({ userId: req.params.userId }).select('name description _id userId').exec().then(docs => {
+    Project.find({ userId: req.params.userId }).select('name description company _id userId').exec().then(docs => {
         const response = {
             count: docs.length,
             projects: docs.map(doc => {
                     return {
                         name: doc.name,
                         description: doc.description,
+                        company: doc.company,
                         _id: doc._id,
                         userId: doc.userId,
                         request: {
@@ -36,6 +37,9 @@ exports.projects_create_project = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         description: req.body.description,
+        location: req.body.location,
+        seniority: req.body.seniority,
+        company: req.body.company,
         userId: req.body.userId
     })
 
@@ -65,7 +69,7 @@ exports.projects_create_project = (req, res, next) => {
 
 exports.projects_get_project = (req, res, next) => {
     const id = req.params.projectId
-    Project.findById(id).select('name description _id ').exec().then(doc => {
+    Project.findById(id).select('name description location company seniority _id ').exec().then(doc => {
         console.log(doc)
         
         if(doc) {
