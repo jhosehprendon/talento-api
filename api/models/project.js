@@ -22,8 +22,8 @@ const projectSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    userId: {
-        type: String,
+    userIds: {
+        type: Array,
         rerquired: true
     }
 })

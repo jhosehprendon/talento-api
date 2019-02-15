@@ -4,7 +4,7 @@ const Project = require('../models/project');
 
 exports.projects_get_all = (req, res, next) => {
     
-    Project.find({ userId: req.params.userId }).select('name description company _id userId').exec().then(docs => {
+    Project.find({ userIds: req.params.userId }).select('name description company _id userIds').exec().then(docs => {
         const response = {
             count: docs.length,
             projects: docs.map(doc => {
@@ -13,7 +13,7 @@ exports.projects_get_all = (req, res, next) => {
                         description: doc.description,
                         company: doc.company,
                         _id: doc._id,
-                        userId: doc.userId,
+                        userIds: doc.userIds,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3000/projects/' + doc._id
@@ -40,7 +40,7 @@ exports.projects_create_project = (req, res, next) => {
         location: req.body.location,
         seniority: req.body.seniority,
         company: req.body.company,
-        userId: req.body.userId
+        userIds: req.body.userIds
     })
 
     project.save().then(result => {
@@ -96,21 +96,41 @@ exports.projects_get_project = (req, res, next) => {
 
 exports.projects_update_project = (req, res, next) => {
 
-    Project.update({ _id: req.params.projectId }, req.body).exec().then(result => {
-        // console.log(req.body)
-        res.status(200).json({
-            message: 'Project updated',
-            request: {
-                type: 'GET',
-                url: 'http://localhost:3000/projects/' + req.params.projectId
-            }
-        })
-    }).catch(err => {
-        console.log(err)
-        res.status(500).json({
-            error: err
-        })
-    })
+        if(req.body.userId) {
+            Project.update({ _id: req.params.projectId }, { $push: { userIds: req.body.userId }}).exec().then(result => {
+                // console.log(req.body)
+                res.status(200).json({
+                    message: 'Project updated',
+                    request: {
+                        type: 'GET',
+                        url: 'http://localhost:3000/projects/' + req.params.projectId
+                    }
+                })
+            }).catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+        } else {
+
+            Project.update({ _id: req.params.projectId }, req.body).exec().then(result => {
+                // console.log(req.body)
+                res.status(200).json({
+                    message: 'Project updated',
+                    request: {
+                        type: 'GET',
+                        url: 'http://localhost:3000/projects/' + req.params.projectId
+                    }
+                })
+            }).catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+        }
+    
 }
 
 exports.projects_delete_project = (req, res, next) => {
