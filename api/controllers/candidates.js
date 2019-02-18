@@ -37,7 +37,8 @@ exports.candidates_create_candidate = (req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         userId: req.body.userId,
-        projectId: req.body.projectId
+        projectId: req.body.projectId,
+        tasks: req.body.tasks
     })
 
     candidate.save().then(result => {
@@ -91,7 +92,7 @@ exports.candidates_get_candidate = (req, res, next) => {
 
 exports.candidates_update_candidate = (req, res, next) => {
 
-    Candidate.update({ _id: req.params.candidateId }, req.body).exec().then(result => {
+    Candidate.update({ _id: req.params.candidateId }, { $push: { tasks: req.body }}).exec().then(result => {
         // console.log(req.body)
         res.status(200).json({
             message: 'Candidate updated',

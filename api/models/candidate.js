@@ -17,6 +17,10 @@ const candidateSchema = mongoose.Schema({
     projectId: {
         type: String,
         rerquired: true
+    },
+    tasks: {
+        type: Array,
+        rerquired: true
     }
 })
 
