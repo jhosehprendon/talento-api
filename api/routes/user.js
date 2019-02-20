@@ -10,6 +10,6 @@ router.post('/login', UserController.user_login)
 
 router.get('/:email', UserController.user_get_by_email)
 
-router.delete('/:userId', checkAuth, UserController.user_delete)
+router.delete('/:userId', UserController.user_delete)
 
 module.exports = router;

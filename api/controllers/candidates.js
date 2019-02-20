@@ -67,7 +67,7 @@ exports.candidates_create_candidate = (req, res, next) => {
 
 exports.candidates_get_candidate = (req, res, next) => {
     const id = req.params.candidateId
-    Candidate.findById(id).select('name email _id ').exec().then(doc => {        
+    Candidate.findById(id).select('name email _id tasks ').exec().then(doc => {        
         if(doc) {
             res.status(200).json({
                 candidate: doc,
@@ -109,6 +109,32 @@ exports.candidates_update_candidate = (req, res, next) => {
     })
 }
 
+
+//NOTES
+
+exports.candidates_update_note = (req, res, next) => {
+    const taskId = req.params.taskId
+    var el = "tasks." + taskId + ".notes"
+    var obj = {}
+    obj[el] = req.body
+    Candidate.update({ _id: req.params.candidateId }, { $push: obj }).exec().then(result => {
+        // console.log(req.body)
+        res.status(200).json({
+            message: 'Candidate updated',
+            request: {
+                type: 'GET',
+                url: 'http://localhost:3000/candidates/' + req.params.candidateId
+            }
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
+}
+
+
 exports.candidates_delete_candidate = (req, res, next) => {
     
     Candidate.remove({ _id: req.params.candidateId }).exec().then(result => {
@@ -122,3 +148,6 @@ exports.candidates_delete_candidate = (req, res, next) => {
         })
     })
 }
+
+
+// db.getCollection('mobiledashboards').find({"_id": ObjectId("58c7da2adaa8d031ea699fff") },{ viewData: { $elemMatch : { "widgetData.widget.title" : "England" }}})
