@@ -10,6 +10,8 @@ router.post('/login', UserController.user_login)
 
 router.get('/:email', UserController.user_get_by_email)
 
+router.get('/user/:userId', UserController.user_get_by_userId)
+
 router.delete('/:userId', UserController.user_delete)
 
 module.exports = router;

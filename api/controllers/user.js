@@ -90,7 +90,33 @@ exports.user_delete = (req, res, next) => {
 
 
 exports.user_get_by_email = (req, res, next) => {
-    User.find({ email: req.params.email }).select('email _id').exec().then(user => {
+    User.find({ email: req.params.email }).select('email _id name').exec().then(user => {
+        console.log(user)
+
+        if(user) {
+            res.status(200).json({
+                user: user,
+                request: {
+                    type: 'GET',
+                    description: 'Get all candidates',
+                    url: 'http://localhost:3000/candidates'
+                }
+            })
+        } else {
+            res.status(404).json({
+                message: 'No valid entry found for that candidate ID'
+            })
+        }
+
+        }).catch(err => {
+            console.log(err)
+            res.status(500).json({error: err})
+        })
+    
+}
+
+exports.user_get_by_userId = (req, res, next) => {
+    User.find({ _id: req.params.userId }).select('email _id name').exec().then(user => {
         console.log(user)
 
         if(user) {
