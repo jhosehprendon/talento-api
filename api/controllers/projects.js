@@ -4,7 +4,7 @@ const Project = require('../models/project');
 
 exports.projects_get_all = (req, res, next) => {
     
-    Project.find({ userIds: req.params.userId }).select('name description company _id userIds').exec().then(docs => {
+    Project.find({ userIds: {$elemMatch: {_id: req.params.userId } }}).select('name description company _id userIds').exec().then(docs => {
         const response = {
             count: docs.length,
             projects: docs.map(doc => {
@@ -69,7 +69,7 @@ exports.projects_create_project = (req, res, next) => {
 
 exports.projects_get_project = (req, res, next) => {
     const id = req.params.projectId
-    Project.findById(id).select('name description location company seniority _id ').exec().then(doc => {
+    Project.findById(id).select('name description location company seniority _id userIds ').exec().then(doc => {
         console.log(doc)
         
         if(doc) {
@@ -96,8 +96,8 @@ exports.projects_get_project = (req, res, next) => {
 
 exports.projects_update_project = (req, res, next) => {
 
-        if(req.body.userId) {
-            Project.update({ _id: req.params.projectId }, { $push: { userIds: req.body.userId }}).exec().then(result => {
+        if(req.body.userInfo) {
+            Project.update({ _id: req.params.projectId }, { $push: { userIds: req.body.userInfo }}).exec().then(result => {
                 // console.log(req.body)
                 res.status(200).json({
                     message: 'Project updated',
