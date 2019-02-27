@@ -97,21 +97,34 @@ exports.projects_get_project = (req, res, next) => {
 exports.projects_update_project = (req, res, next) => {
 
         if(req.body.userInfo) {
-            Project.update({ _id: req.params.projectId }, { $push: { userIds: req.body.userInfo }}).exec().then(result => {
-                // console.log(req.body)
-                res.status(200).json({
-                    message: 'Project updated',
-                    request: {
-                        type: 'GET',
-                        url: 'http://localhost:3000/projects/' + req.params.projectId
-                    }
+
+            Project.find({ _id: req.params.projectId }).exec().then(result => {
+                return result[0].userIds.find(el => {
+                    return el.name === req.body.userInfo.name
                 })
-            }).catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
+            }).then((check) => {
+                if(!check) {
+                    Project.update({ _id: req.params.projectId }, { $push: { userIds: req.body.userInfo }}).exec().then(result => {
+                        // console.log(req.body)
+                        res.status(200).json({
+                            message: 'Project updated',
+                            request: {
+                                type: 'GET',
+                                url: 'http://localhost:3000/projects/' + req.params.projectId
+                            }
+                        })
+                    }).catch(err => {
+                        console.log(err)
+                        res.status(500).json({
+                            error: err
+                        })
+                    })
+                } else {
+                    console.log('COLLEAGUE EXIST!!!!!!!!!!')
+                }
+
             })
+            
         } else {
 
             Project.update({ _id: req.params.projectId }, req.body).exec().then(result => {
