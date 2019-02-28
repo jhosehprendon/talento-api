@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
 
-    if(file.mimetype === 'cv/jpeg' || file.mimetype === 'cv/png') {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true)
     } else {
         cb(null, false)
@@ -34,7 +34,7 @@ const upload = multer({
 
 router.get('/:projectId', CandidatesController.candidates_get_all)
 
-router.post('/', CandidatesController.candidates_create_candidate)
+router.post('/', upload.single('candidateCV'), CandidatesController.candidates_create_candidate)
 
 router.get('/candidate/:candidateId', CandidatesController.candidates_get_candidate)
 

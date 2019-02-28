@@ -38,7 +38,8 @@ exports.candidates_create_candidate = (req, res, next) => {
         email: req.body.email,
         userId: req.body.userId,
         projectId: req.body.projectId,
-        tasks: req.body.tasks
+        tasks: req.body.tasks,
+        candidateCV: req.file.path //NEW
     })
 
     candidate.save().then(result => {
@@ -119,7 +120,7 @@ exports.candidates_update_candidate = (req, res, next) => {
         
             var data = { $set: updateOps }
         } else {
-            var data = {...req.body, candiidateCV: req.file.path}
+            var data = {...req.body, candidateCV: req.file.path}
     
         }
 
