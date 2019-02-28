@@ -68,7 +68,7 @@ exports.candidates_create_candidate = (req, res, next) => {
 
 exports.candidates_get_candidate = (req, res, next) => {
     const id = req.params.candidateId
-    Candidate.findById(id).select('name email _id tasks ').exec().then(doc => {        
+    Candidate.findById(id).select('name email _id tasks candidateCV').exec().then(doc => {        
         if(doc) {
             res.status(200).json({
                 candidate: doc,
