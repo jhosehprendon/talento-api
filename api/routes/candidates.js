@@ -40,6 +40,8 @@ router.get('/candidate/:candidateId', CandidatesController.candidates_get_candid
 
 router.patch('/:candidateId', upload.single('candidateCV'), CandidatesController.candidates_update_candidate)
 
+router.patch('/task/:candidateId', CandidatesController.candidates_update_task_candidate)
+
 router.patch('/notes/:candidateId/:taskId', CandidatesController.candidates_update_note)
 
 router.delete('/:candidateId', CandidatesController.candidates_delete_candidate)

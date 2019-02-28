@@ -143,6 +143,25 @@ exports.candidates_update_candidate = (req, res, next) => {
     }
 }
 
+exports.candidates_update_task_candidate = (req, res, next) => {
+
+    Candidate.update({ _id: req.params.candidateId }, { $push: { tasks: req.body }}).exec().then(result => {
+        console.log(req.body)
+        res.status(200).json({
+            message: 'Candidate updated',
+            request: {
+                type: 'GET',
+                url: 'http://localhost:3000/candidates/' + req.params.candidateId
+            }
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
+}
+
 
 //NOTES
 
