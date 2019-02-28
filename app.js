@@ -15,7 +15,7 @@ mongoose.connect('mongodb://shop-node:' + process.env.MONGO_ATLAS_PW + '@node-sh
 mongoose.Promise = global.Promise
 
 app.use(morgan('dev'))
-// app.use('/uploads', express.static('uploads'))
+app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 

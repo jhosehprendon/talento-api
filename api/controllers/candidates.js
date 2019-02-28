@@ -110,7 +110,21 @@ exports.candidates_update_candidate = (req, res, next) => {
             })
         })
     } else {
-        Candidate.update({ _id: req.params.candidateId }, req.body).exec().then(result => {
+
+        if(req.body.length > 1) {
+            const updateOps = {}
+            for(const ops of req.body ) {
+                updateOps[ops.propName] = ops.value
+            }
+        
+            var data = { $set: updateOps }
+        } else {
+            var data = {...req.body, candiidateCV: req.file.path}
+    
+        }
+
+        
+        Candidate.update({ _id: req.params.candidateId }, data).exec().then(result => {
             // console.log(req.body)
             res.status(200).json({
                 message: 'Candidate updated',
