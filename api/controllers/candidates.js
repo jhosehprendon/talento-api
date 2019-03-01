@@ -111,7 +111,6 @@ exports.candidates_update_candidate = (req, res, next) => {
             })
         })
     } else {
-
         if(req.body.length > 1) {
             const updateOps = {}
             for(const ops of req.body ) {
@@ -123,11 +122,9 @@ exports.candidates_update_candidate = (req, res, next) => {
             var data = {...req.body, candidateCV: req.file.path}
     
         }
-        console.log('DATAAAA', data)
 
         
         Candidate.update({ _id: req.params.candidateId }, data).exec().then(result => {
-            // console.log(req.body)
             res.status(200).json({
                 message: 'Candidate updated',
                 request: {
@@ -205,6 +202,6 @@ exports.candidates_delete_candidate = (req, res, next) => {
 
 exports.candidates_get_cv_candidate = (req, res, next) => {
     console.log(req.params.filePath)
-    res.download('http://localhost:3002/../../uploads/' + 'req.params.filePath');
+    res.download('http://localhost:3002/../../uploads/' + req.params.filePath)
 }
 
