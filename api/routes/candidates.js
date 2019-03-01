@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
 
-    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    if(file.mimetype === 'application/pdf' || file.mimetype === 'application/msword') {
         cb(null, true)
     } else {
         cb(null, false)
@@ -45,5 +45,7 @@ router.patch('/task/:candidateId', CandidatesController.candidates_update_task_c
 router.patch('/notes/:candidateId/:taskId', CandidatesController.candidates_update_note)
 
 router.delete('/:candidateId', CandidatesController.candidates_delete_candidate)
+
+router.get('/download/uploads/:filePath', CandidatesController.candidates_get_cv_candidate);
 
 module.exports = router;

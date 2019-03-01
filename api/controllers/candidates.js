@@ -123,6 +123,7 @@ exports.candidates_update_candidate = (req, res, next) => {
             var data = {...req.body, candidateCV: req.file.path}
     
         }
+        console.log('DATAAAA', data)
 
         
         Candidate.update({ _id: req.params.candidateId }, data).exec().then(result => {
@@ -202,5 +203,8 @@ exports.candidates_delete_candidate = (req, res, next) => {
     })
 }
 
+exports.candidates_get_cv_candidate = (req, res, next) => {
+    console.log(req.params.filePath)
+    res.download('http://localhost:3002/../../uploads/' + 'req.params.filePath');
+}
 
-// db.getCollection('mobiledashboards').find({"_id": ObjectId("58c7da2adaa8d031ea699fff") },{ viewData: { $elemMatch : { "widgetData.widget.title" : "England" }}})
