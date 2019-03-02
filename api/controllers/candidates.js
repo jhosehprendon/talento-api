@@ -32,14 +32,22 @@ exports.candidates_get_all = (req, res, next) => {
 
 exports.candidates_create_candidate = (req, res, next) => {
 
+    if(req.body.length > 1) {
+        const updateOps = {}
+        for(const ops of req.body ) {
+            updateOps[ops.propName] = ops.value
+        }
+    
+        var data = updateOps
+    } else {
+        var data = {...req.body, candidateCV: req.file.path}
+
+    }
+
     const candidate = new Candidate({
+        ...data,
         _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        email: req.body.email,
-        userId: req.body.userId,
-        projectId: req.body.projectId,
-        tasks: req.body.tasks,
-        candidateCV: req.file.path //NEW
+        tasks: req.body.tasks
     })
 
     candidate.save().then(result => {
@@ -111,6 +119,7 @@ exports.candidates_update_candidate = (req, res, next) => {
             })
         })
     } else {
+       
         if(req.body.length > 1) {
             const updateOps = {}
             for(const ops of req.body ) {
