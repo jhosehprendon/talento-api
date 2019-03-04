@@ -25,6 +25,10 @@ const projectSchema = mongoose.Schema({
     userIds: {
         type: Array,
         rerquired: true
+    },
+    projectStatus: {
+        type: Array,
+        required: true
     }
 })
 
