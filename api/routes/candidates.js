@@ -46,6 +46,8 @@ router.patch('/notes/:candidateId/:taskId', CandidatesController.candidates_upda
 
 router.patch('/taskStatus/:candidateId/:taskId', CandidatesController.candidates_update_task_status)
 
+router.patch('/candidateStatus/:candidateId', CandidatesController.candidates_update_candidate_status)
+
 router.delete('/:candidateId', CandidatesController.candidates_delete_candidate)
 
 router.get('/download/uploads/:filePath', CandidatesController.candidates_get_cv_candidate);

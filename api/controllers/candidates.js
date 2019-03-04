@@ -2,9 +2,42 @@ const mongoose = require('mongoose');
 
 const Candidate = require('../models/candidate');
 
+const CANDIDATE_STATUS = [
+    {
+        prop: 'Interviewing',
+        status: true,
+        color: '#9b59b6'
+    },
+    {
+        prop: 'Evaluating',
+        status: false,
+        color: '#3498db'
+    },
+    {
+        prop: 'Analyzing',
+        status: false,
+        color: '#e67e22'
+    },
+    {
+        prop: 'Sent offer',
+        status: false,
+        color: '#f1c40f'
+    },
+    {
+        prop: 'Hired',
+        status: false,
+        color: '#2ecc71'
+    },
+    {
+        prop: 'Rejected',
+        status: false,
+        color: '#e74c3c'
+    }
+]
+
 exports.candidates_get_all = (req, res, next) => {
     
-    Candidate.find({ projectId: req.params.projectId }).select('name email _id userId').exec().then(docs => {
+    Candidate.find({ projectId: req.params.projectId }).select('name email _id userId candidateStatus').exec().then(docs => {
         const response = {
             count: docs.length,
             candidates: docs.map(doc => {
@@ -13,6 +46,7 @@ exports.candidates_get_all = (req, res, next) => {
                         email: doc.email,
                         _id: doc._id,
                         userId: doc.userId,
+                        candidateStatus: doc.candidateStatus,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3002/candidates/' + doc._id
@@ -44,10 +78,13 @@ exports.candidates_create_candidate = (req, res, next) => {
 
     }
 
+    const candidateStatus = CANDIDATE_STATUS
+
     const candidate = new Candidate({
         ...data,
         _id: new mongoose.Types.ObjectId(),
-        tasks: req.body.tasks
+        tasks: req.body.tasks,
+        candidateStatus: candidateStatus
     })
 
     candidate.save().then(result => {
@@ -59,6 +96,7 @@ exports.candidates_create_candidate = (req, res, next) => {
                 email: result.email,
                 _id: result._id,
                 userId: result.userId,
+                candidateStatus: result.candidateStatus,
                 request: {
                     type: 'GET',
                     url: 'http://localhost:3002/candidates/' + result._id
@@ -76,7 +114,7 @@ exports.candidates_create_candidate = (req, res, next) => {
 
 exports.candidates_get_candidate = (req, res, next) => {
     const id = req.params.candidateId
-    Candidate.findById(id).select('name email _id tasks candidateCV').exec().then(doc => {        
+    Candidate.findById(id).select('name email _id tasks candidateCV candidateStatus').exec().then(doc => {        
         if(doc) {
             res.status(200).json({
                 candidate: doc,
@@ -178,6 +216,37 @@ exports.candidates_update_task_status = (req, res, next) => {
     obj[el] = req.body
 
     Candidate.update({ _id: req.params.candidateId }, { $set: obj }).exec().then(result => {
+        // console.log(req.body)
+        res.status(200).json({
+            message: 'Candidate updated',
+            request: {
+                type: 'GET',
+                url: 'http://localhost:3000/candidates/' + req.params.candidateId
+            }
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
+}
+
+// CANDIDATE STATUS
+
+exports.candidates_update_candidate_status = (req, res, next) => {
+
+    var candidateStatus = CANDIDATE_STATUS.map(el => {
+        if(el.prop === req.body.value) {
+            return { ...el, status: true}
+        } else if (el.status === true) {
+            return { ...el, status: false }
+        } else {
+            return el
+        }
+    })
+
+    Candidate.update({ _id: req.params.candidateId }, { $set: {candidateStatus: candidateStatus}  }).exec().then(result => {
         // console.log(req.body)
         res.status(200).json({
             message: 'Candidate updated',

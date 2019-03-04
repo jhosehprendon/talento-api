@@ -25,6 +25,10 @@ const candidateSchema = mongoose.Schema({
     candidateCV: {
         type: String,
         rerquired: true
+    },
+    candidateStatus: {
+        type: Array,
+        rerquired: true
     }
 })
 
