@@ -307,6 +307,7 @@ exports.candidates_delete_candidate = (req, res, next) => {
 
 exports.candidates_get_cv_candidate = (req, res, next) => {
     console.log(req.params.filePath)
-    res.download('http://localhost:3002/../../uploads/' + req.params.filePath)
+    // res.download('http://localhost:3002/../../uploads/' + req.params.filePath)
+    res.download('https://softhunt-api.herokuapp.com/../../uploads/' + req.params.filePath)
 }
 
