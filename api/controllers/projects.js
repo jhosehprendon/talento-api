@@ -17,7 +17,7 @@ const PROJECT_STATUS = [
 
 exports.projects_get_all = (req, res, next) => {
     
-    Project.find({ userIds: {$elemMatch: {_id: req.params.userId } }}).select('name description company _id userIds projectStatus').exec().then(docs => {
+    Project.find({ userIds: {$elemMatch: {_id: req.params.userId } }}).select('name description company _id userIds projectStatus location').exec().then(docs => {
         const response = {
             count: docs.length,
             projects: docs.map(doc => {
@@ -28,6 +28,7 @@ exports.projects_get_all = (req, res, next) => {
                         projectStatus: doc.projectStatus,
                         _id: doc._id,
                         userIds: doc.userIds,
+                        location: doc.location,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3000/projects/' + doc._id

@@ -18,6 +18,14 @@ const candidateSchema = mongoose.Schema({
         type: String,
         rerquired: true
     },
+    summary: {
+        type: String,
+        rerquired: false
+    },
+    linkedin: {
+        type: String,
+        rerquired: false
+    },
     tasks: {
         type: Array,
         rerquired: true

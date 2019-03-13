@@ -3,12 +3,13 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const keys = require('./config/keys');
 
 const projectRoutes = require('./api/routes/projects')
 const candidateRoutes = require('./api/routes/candidates')
 const userRoutes = require('./api/routes/user')
 
-mongoose.connect('mongodb://shop-node:' + process.env.MONGO_ATLAS_PW + '@node-shop-app-shard-00-00-cweaz.mongodb.net:27017,node-shop-app-shard-00-01-cweaz.mongodb.net:27017,node-shop-app-shard-00-02-cweaz.mongodb.net:27017/test?ssl=true&replicaSet=node-shop-app-shard-0&authSource=admin&retryWrites=true', {
+mongoose.connect(keys.MONGO_URI, {
     useMongoClient: true
 })
 

@@ -94,6 +94,8 @@ exports.candidates_create_candidate = (req, res, next) => {
             createdCandidate: {
                 name: result.name,
                 email: result.email,
+                summary: result.summary,
+                linkedin: result.linkedin,
                 _id: result._id,
                 userId: result.userId,
                 candidateStatus: result.candidateStatus,
@@ -114,7 +116,7 @@ exports.candidates_create_candidate = (req, res, next) => {
 
 exports.candidates_get_candidate = (req, res, next) => {
     const id = req.params.candidateId
-    Candidate.findById(id).select('name email _id tasks candidateCV candidateStatus').exec().then(doc => {        
+    Candidate.findById(id).select('name email _id tasks candidateCV candidateStatus summary linkedin').exec().then(doc => {        
         if(doc) {
             res.status(200).json({
                 candidate: doc,
