@@ -101,7 +101,7 @@ exports.user_get_by_email = (req, res, next) => {
                 request: {
                     type: 'GET',
                     description: 'Get all candidates',
-                    url: 'http://localhost:3000/candidates'
+                    url: 'http://localhost:3002/candidates'
                 }
             })
         } else {
@@ -127,7 +127,7 @@ exports.user_get_by_userId = (req, res, next) => {
                 request: {
                     type: 'GET',
                     description: 'Get all candidates',
-                    url: 'http://localhost:3000/candidates'
+                    url: 'http://localhost:3002/candidates'
                 }
             })
         } else {

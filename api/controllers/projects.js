@@ -31,7 +31,7 @@ exports.projects_get_all = (req, res, next) => {
                         location: doc.location,
                         request: {
                             type: 'GET',
-                            url: 'http://localhost:3000/projects/' + doc._id
+                            url: 'http://localhost:3002/projects/' + doc._id
                         } 
                     }
             })
@@ -73,7 +73,7 @@ exports.projects_create_project = (req, res, next) => {
                 projectStatus: result.projectStatus,
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:3000/projects/' + result._id
+                    url: 'http://localhost:3002/projects/' + result._id
                 }
             }
         })
@@ -97,7 +97,7 @@ exports.projects_get_project = (req, res, next) => {
                 request: {
                     type: 'GET',
                     description: 'Get all projects',
-                    url: 'http://localhost:3000/projects'
+                    url: 'http://localhost:3002/projects'
                 }
             })
         } else {
@@ -133,7 +133,7 @@ exports.projects_update_project = (req, res, next) => {
                     message: 'Project updated',
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:3000/projects/' + req.params.projectId
+                        url: 'http://localhost:3002/projects/' + req.params.projectId
                     }
                 })
             }).catch(err => {
@@ -158,7 +158,7 @@ exports.projects_update_project = (req, res, next) => {
                             message: 'Project updated',
                             request: {
                                 type: 'GET',
-                                url: 'http://localhost:3000/projects/' + req.params.projectId
+                                url: 'http://localhost:3002/projects/' + req.params.projectId
                             }
                         })
                     }).catch(err => {
@@ -181,7 +181,7 @@ exports.projects_update_project = (req, res, next) => {
                     message: 'Project updated',
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:3000/projects/' + req.params.projectId
+                        url: 'http://localhost:3002/projects/' + req.params.projectId
                     }
                 })
             }).catch(err => {
