@@ -1,5 +1,4 @@
 const request = require('supertest');
-const mongoose = require('mongoose')
 const app = require('../app');
 const User = require('../api/models/user');
 
@@ -27,4 +26,11 @@ test('Should login an existing user', async () => {
         email: userOne.email,
         password: userOne.password
     }).expect(200)
+})
+
+test('Should not login when wrong credentials', async () => {
+    await request(app).post('/user/login').send({
+        email: 'wrong@gmail.com',
+        password: userOne.password
+    }).expect(401)
 })
