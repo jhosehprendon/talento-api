@@ -34,6 +34,8 @@ const upload = multer({
 
 router.get('/:projectId', CandidatesController.candidates_get_all)
 
+router.get('/candidates/:userId', CandidatesController.candidates_get_all_total)
+
 router.post('/', upload.single('candidateCV'), CandidatesController.candidates_create_candidate)
 
 router.get('/candidate/:candidateId', CandidatesController.candidates_get_candidate)

@@ -64,6 +64,35 @@ exports.candidates_get_all = (req, res, next) => {
     })
 }
 
+
+exports.candidates_get_all_total = (req, res, next) => {
+    
+    Candidate.find({ userId: req.params.userId }).select('name email _id candidateStatus').exec().then(docs => {
+        const response = {
+            count: docs.length,
+            candidates: docs.map(doc => {
+                    return {
+                        name: doc.name,
+                        email: doc.email,
+                        _id: doc._id,
+                        candidateStatus: doc.candidateStatus,
+                        request: {
+                            type: 'GET',
+                            url: 'http://localhost:3002/candidates/' + doc._id
+                        } 
+                    }
+            })
+        }
+        res.status(200).json(response)
+
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
+}
+
 exports.candidates_create_candidate = (req, res, next) => {
 
     if(req.body.length > 1) {
