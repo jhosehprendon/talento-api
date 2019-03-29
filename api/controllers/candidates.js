@@ -66,8 +66,8 @@ exports.candidates_get_all = (req, res, next) => {
 
 
 exports.candidates_get_all_total = (req, res, next) => {
-    
-    Candidate.find({ userId: req.params.userId }).select('name email _id candidateStatus').exec().then(docs => {
+    const arr = req.params.userId.split(',')
+    Candidate.find({ projectId: { $in: arr } }).select('name email _id candidateStatus').exec().then(docs => {
         const response = {
             count: docs.length,
             candidates: docs.map(doc => {
