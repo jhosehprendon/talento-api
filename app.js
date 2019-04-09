@@ -8,6 +8,7 @@ const keys = require('./config/keys');
 const projectRoutes = require('./api/routes/projects')
 const candidateRoutes = require('./api/routes/candidates')
 const userRoutes = require('./api/routes/user')
+const portafolioRoutes = require('./api/routes/portafolio')
 
 mongoose.connect(keys.MONGO_URI, {
     useMongoClient: true
@@ -35,8 +36,8 @@ app.use((req, res, next) => {
 
 app.use('/projects', projectRoutes)
 app.use('/candidates', candidateRoutes)
-// app.use('/orders', orderRoutes)
 app.use('/user', userRoutes)
+app.use('/portafolio', portafolioRoutes)
 
 app.use((req, res, next) => {
     const error = new Error('Not found')

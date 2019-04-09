@@ -17,6 +17,10 @@ const portafolioSchema = mongoose.Schema({
     results: {
         type: String,
         required: true
+    },
+    userIds: {
+        type: Array,
+        rerquired: true
     }
 })
 

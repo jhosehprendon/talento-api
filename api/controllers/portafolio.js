@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Portafolio = require('../models/portafolio');
 
 exports.portafolio_create_project = (req, res, next) => {
-
+    console.log(req.body)
     const portafolio = new Portafolio({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
