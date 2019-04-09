@@ -36,3 +36,27 @@ exports.portafolio_create_project = (req, res, next) => {
     })
 
 }
+
+exports.portafolio_get_all_projects = (req, res, next) => {
+    Portafolio.find({ userIds: {$elemMatch: {_id: req.params.userId } }}).select('name').exec().then(docs => {
+        const response = {
+            count: docs.length,
+            projects: docs.map(doc => {
+                    return {
+                        name: doc.name,
+                        request: {
+                            type: 'GET',
+                            url: 'http://localhost:3002/projects/' + doc._id
+                        } 
+                    }
+            })
+        }
+        res.status(200).json(response)
+
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
+}

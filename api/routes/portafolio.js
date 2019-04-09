@@ -4,7 +4,7 @@ const checkAuth = require('../middleware/check-auth');
 
 const PortafolioController = require('../controllers/portafolio');
 
-// router.get('/:userId', PortafolioController.projects_get_all)
+router.get('/:userId', PortafolioController.portafolio_get_all_projects)
 
 router.post('/', PortafolioController.portafolio_create_project)
 
