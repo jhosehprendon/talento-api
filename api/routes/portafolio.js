@@ -8,7 +8,7 @@ router.get('/:userId', PortafolioController.portafolio_get_all_projects)
 
 router.post('/', PortafolioController.portafolio_create_project)
 
-// router.get('/project/:projectId', PortafolioController.projects_get_project)
+router.get('/project/:projectId', PortafolioController.portafolio_get_project)
 
 // router.patch('/:projectId', PortafolioController.projects_update_project)
 

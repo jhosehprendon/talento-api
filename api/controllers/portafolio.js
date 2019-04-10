@@ -38,12 +38,13 @@ exports.portafolio_create_project = (req, res, next) => {
 }
 
 exports.portafolio_get_all_projects = (req, res, next) => {
-    Portafolio.find({ userIds: {$elemMatch: {_id: req.params.userId } }}).select('name').exec().then(docs => {
+    Portafolio.find({ userIds: {$elemMatch: {_id: req.params.userId } }}).select('name _id').exec().then(docs => {
         const response = {
             count: docs.length,
             projects: docs.map(doc => {
                     return {
                         name: doc.name,
+                        _id: doc._id,
                         request: {
                             type: 'GET',
                             url: 'http://localhost:3002/projects/' + doc._id
@@ -59,4 +60,31 @@ exports.portafolio_get_all_projects = (req, res, next) => {
             error: err
         })
     })
+}
+
+exports.portafolio_get_project = (req, res, next) => {
+    const id = req.params.projectId
+    Portafolio.findById(id).select('name _id').exec().then(doc => {
+        console.log(doc)
+        
+        if(doc) {
+            res.status(200).json({
+                project: doc,
+                request: {
+                    type: 'GET',
+                    description: 'Get all projects',
+                    url: 'http://localhost:3002/projects'
+                }
+            })
+        } else {
+            res.status(404).json({
+                message: 'No valid entry found for that project ID'
+            })
+        }
+
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({error: err})
+    })
+    
 }
