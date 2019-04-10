@@ -12,6 +12,8 @@ router.get('/:email', UserController.user_get_by_email)
 
 router.get('/user/:userId', UserController.user_get_by_userId)
 
+router.patch('/user/:userId', UserController.user_update)
+
 router.delete('/:userId', UserController.user_delete)
 
 module.exports = router;

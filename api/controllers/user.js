@@ -143,3 +143,53 @@ exports.user_get_by_userId = (req, res, next) => {
         })
     
 }
+
+exports.user_update = (req, res, next) => {
+
+    // if(req.body.tasks) {
+
+    //     User.update({ _id: req.params.candidateId }, { $push: { tasks: req.body }}).exec().then(result => {
+    //         // console.log(req.body)
+    //         res.status(200).json({
+    //             message: 'Candidate updated',
+    //             request: {
+    //                 type: 'GET',
+    //                 url: 'http://localhost:3000/candidates/' + req.params.candidateId
+    //             }
+    //         })
+    //     }).catch(err => {
+    //         console.log(err)
+    //         res.status(500).json({
+    //             error: err
+    //         })
+    //     })
+    // } else {
+       
+    //     if(req.body.length > 1) {
+    //         const updateOps = {}
+    //         for(const ops of req.body ) {
+    //             updateOps[ops.propName] = ops.value
+    //         }
+        
+    //         var data = { $set: updateOps }
+    //     } else {
+    //         var data = {...req.body, candidateCV: req.file.path}
+    
+    //     }
+
+        
+    User.update({ _id: req.params.userId }, req.body).exec().then(result => {
+        res.status(200).json({
+            message: 'Candidate updated',
+            request: {
+                type: 'GET',
+                url: 'http://localhost:3000/candidates/' + req.params.candidateId
+            }
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
+}

@@ -64,7 +64,7 @@ exports.portafolio_get_all_projects = (req, res, next) => {
 
 exports.portafolio_get_project = (req, res, next) => {
     const id = req.params.projectId
-    Portafolio.findById(id).select('name _id').exec().then(doc => {
+    Portafolio.findById(id).select('name _id objective platform results').exec().then(doc => {
         console.log(doc)
         
         if(doc) {
