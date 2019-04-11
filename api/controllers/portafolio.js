@@ -88,3 +88,20 @@ exports.portafolio_get_project = (req, res, next) => {
     })
     
 }
+
+exports.portafolio_update_project = (req, res, next) => {
+    Portafolio.update({ _id: req.params.projectId }, req.body).exec().then(result => {
+        res.status(200).json({
+            message: 'Candidate updated',
+            request: {
+                type: 'GET',
+                url: 'http://localhost:3000/candidates/' + req.params.candidateId
+            }
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
+}

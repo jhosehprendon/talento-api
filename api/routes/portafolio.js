@@ -10,7 +10,7 @@ router.post('/', PortafolioController.portafolio_create_project)
 
 router.get('/project/:projectId', PortafolioController.portafolio_get_project)
 
-// router.patch('/:projectId', PortafolioController.projects_update_project)
+router.patch('/project/:projectId', PortafolioController.portafolio_update_project)
 
 // router.delete('/:projectId', PortafolioController.projects_delete_project)
 
